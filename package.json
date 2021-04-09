@@ -1,0 +1,23 @@
+{
+  "name": "project4",
+  "version": "1.0.0",
+  "description": "## User Stories - As a user (AAU), I want to be able to search for words grid of random letters. - AAU, I want to be able to enter these words into a text box, and if they exist in the dictionary, have the points corresponding to the length of the word added to my score and have my total score and previously entered words displayed.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LouisaJohnston/project4.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LouisaJohnston/project4/issues"
+  },
+  "homepage": "https://github.com/LouisaJohnston/project4#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^8.2.0"
+  }
+}
