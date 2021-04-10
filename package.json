@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/LouisaJohnston/project4#readme",
   "dependencies": {
-    "axios": "^0.21.1",
     "dotenv": "^8.2.0"
   }
 }
