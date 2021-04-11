@@ -29,9 +29,8 @@ Word Length (in letters) | Points
 - Some sort of a daily grid with a leader board
 - Mobile-friendly
 - Randomize letter directions
-- Multi-player (Socket.io)
 
 
 ## Technologies
-JavaScript, React, Express, and the WordsAPI. In addition, I would like to include Socket.io as a stretch goal.
+Python, Pygame and the WordsAPI
 
