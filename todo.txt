@@ -1,0 +1,26 @@
+Monday
+- separate grid from text
+- create score holder
+- put letters in grid
+- start score logic
+Tuesday
+- score logic
+Wednesday
+- more score logic
+- display found words
+Thursday
+- finish score logic
+- connect API
+- timer
+- Multiple grid sizes
+Friday
+- Calculate total possible points
+- Refactor
+- Styling
+Saturday
+- Look into multi-play options
+- Refactor
+- Styling
+Sunday
+- Refactor
+- Styling
