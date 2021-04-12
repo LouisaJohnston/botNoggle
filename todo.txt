@@ -1,13 +1,14 @@
 Monday
 - separate grid from text
-- create score holder
 - put letters in grid
+- create score holder
 - start score logic
 Tuesday
 - score logic
 Wednesday
 - more score logic
 - display found words
+- Add buttons
 Thursday
 - finish score logic
 - connect API
