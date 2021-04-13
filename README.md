@@ -33,5 +33,5 @@ Word Length (in letters) | Points
 
 
 ## Technologies
-Python, Pygame and the WordsAPI
+Python, Pygame and words_dictionary.json from https://github.com/dwyl/english-words/
 

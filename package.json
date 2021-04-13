@@ -17,6 +17,5 @@
   },
   "homepage": "https://github.com/LouisaJohnston/project4#readme",
   "dependencies": {
-    "dotenv": "^8.2.0"
   }
 }

@@ -2,6 +2,12 @@ import pygame
 from pygame.locals import *
 import time
 import random
+import requests
+import json
+
+# For dictionary
+database = 'words_dictionary.json'
+dictionary = json.loads(open(database).read())
 
 # Define some colors
 BLACK = (0, 0, 0)
@@ -83,7 +89,8 @@ while not done:
             done = True  # Flag that we are done so we exit this loop
         elif event.type == KEYDOWN:
             if event.key == K_RETURN:
-                print('true')
+                pass
+                # if text 
             elif event.key == K_BACKSPACE:
                 if len(text)>0:
                     text = text[:-1]
