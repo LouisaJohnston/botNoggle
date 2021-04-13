@@ -1,10 +1,10 @@
 Monday
 - separate grid from text
 - put letters in grid
-- create score holder
 - start score logic
 Tuesday
 - score logic
+- create score holder
 Wednesday
 - more score logic
 - display found words

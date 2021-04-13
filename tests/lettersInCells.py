@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import *
 import time
 import random
-import string
 
 # Define some colors
 BLACK = (0, 0, 0)
@@ -11,32 +10,25 @@ RED = (255, 0, 0)
 GRAY = (200, 200, 200)
 
 # This sets the WIDTH and HEIGHT of each grid location
-# w = 20
-# x,y = 0,0
 WIDTH = 20
 HEIGHT = 20
 
 # This sets the margin between each cell
 MARGIN = 5 
 
-# Create a 2 dimensional array. A two dimensional
-# array is simply a list of lists.
+# Holds the boggle letter distribution
+BOGGLE_STRING = "AAEEGNELRTTYAOOTTWABBJOOEHRTVWCIMOTUDISTTYEIOSSTDELRVYACHOPSHIMNEEINSUEEGHNWAFFKPSHLNNRZDEILRX"
+
+# Create a 2 dimensional array
 grid = []
 for row in range(4):
     # Add an empty array that will hold each cell
     # in this row
     grid.append([])
     for column in range(4):
-        random_letter = random.choice(string.ascii_letters).upper()
+        random_letter = random.choice(BOGGLE_STRING)
         grid[row].append(random_letter)  # Append a cell
-
-# for i in grid:
-#     print(i[0], i[1], i[2], i[3])
-letter_list = []
-for letter in grid:
-    letter_list+= letter
-print(letter_list)
-print(letter_list[-1])
+print(grid)
 
 # Initialize pygame
 pygame.init()
@@ -50,13 +42,16 @@ text = 'this text is editable'
 font = pygame.font.SysFont(None, 48)
 img = font.render(text, True, RED)
 
-# turn the letter list into pygame images
+# turn the letter list into multidimensional array of pygame images
 img_list = []
-for letter in letter_list:
-    cell_font = pygame.font.SysFont(None, 30)
-    cell_img = cell_font.render(letter, True, RED)
-    img_list.append(cell_img)
+for row in range(4):
+    img_list.append([])
+    for column in range(4):
+        cell_font = pygame.font.SysFont(None, 30)
+        cell_img = cell_font.render(grid[row][column], True, RED)
+        img_list[row].append(cell_img)
 
+# Display the input text
 rect = img.get_rect()
 rect.topleft = (175, 20)
 
@@ -89,7 +84,7 @@ while not done:
 
     # Draw the grid
     for row in range(4):
-        for column in range(4):
+        for column in range(4): 
             for letter in img_list:
                 color = WHITE
                 rect2 = pygame.draw.rect(screen,
@@ -98,9 +93,7 @@ while not done:
                                 (MARGIN + HEIGHT) * row + MARGIN,
                                 WIDTH,
                                 HEIGHT])
-                screen.blit(letter, rect2)
-                if img_list.index(letter) != -1:
-                    letter = img_list[+ 1]
+                screen.blit(img_list[row][column], rect2)
              
 
     # Limit to 60 frames per second
