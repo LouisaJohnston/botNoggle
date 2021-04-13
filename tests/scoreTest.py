@@ -45,7 +45,7 @@ WINDOW_SIZE = [640, 255]
 screen = pygame.display.set_mode(WINDOW_SIZE)
 
 # Input text Variables
-text = 'this text is editable'
+text = 'Enter'
 font = pygame.font.SysFont(None, 48)
 img = font.render(text, True, BLUE)
 
@@ -89,20 +89,19 @@ while not done:
             done = True  # Flag that we are done so we exit this loop
         elif event.type == KEYDOWN:
             if event.key == K_RETURN:
-                if text in dictionary:
+                if text.lower() in dictionary:
                     score_val += 1
-                    print(score_val)
+                    score_img = score_font.render(str(score_val), True, RED)
+                    score_rect.size = score_img.get_size()
+                print(score_val)
             elif event.key == K_BACKSPACE:
                 if len(text)>0:
                     text = text[:-1]
             else:
                 text += event.unicode
-            score_img =  font.render(score_str, True, RED)
-            score_rect.size = score_img.get_size()
             img = font.render(text, True, BLUE)
             rect.size = img.get_size()
         
-
     # Set the screen background
     screen.fill(GRAY)
     
