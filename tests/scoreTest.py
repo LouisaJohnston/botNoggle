@@ -82,13 +82,16 @@ while not done:
         if event.type == pygame.QUIT:  # If user clicked close
             done = True  # Flag that we are done so we exit this loop
         elif event.type == KEYDOWN:
-            if event.key == K_BACKSPACE:
+            if event.key == K_RETURN:
+                print('true')
+            elif event.key == K_BACKSPACE:
                 if len(text)>0:
                     text = text[:-1]
             else:
                 text += event.unicode
             img = font.render(text, True, BLUE)
             rect.size=img.get_size()
+        
 
     # Set the screen background
     screen.fill(GRAY)
