@@ -2,7 +2,7 @@
 
 ## User Stories
 - As a user (AAU), I want to be able to search for words grid of random letters.
-- AAU, I want to be able to enter these words into a text box, and if they exist in the dictionary, have the points corresponding to the length of the word added to my score and have my total score and previously entered words displayed.
+- AAU, I want to be able to enter these words into a text box, and if they exist in the dictionary, have the points corresponding to the length of the word added to my score and have my total score.
 
 ### Game Rules
 Find as many words as possible within a 4x4 grid of random letters in three minutes.
@@ -23,6 +23,7 @@ Word Length (in letters) | Points
 
 
 ## Stretch
+- Display previously found words
 - Calculate total possible points
 - Multiple grid sizes 
 - Option to display word definitions
