@@ -19,15 +19,8 @@ HEIGHT = 20
 # This sets the margin between each cell
 MARGIN = 5 
 
-
-# For letters in cells
-# cell_font = pygame.font.SysFont(None, 20)
-# cell_img = cell_font.render(random_letter, True, RED)
-# cell_rect =cell_img.get_rect()
-
 # Create a 2 dimensional array. A two dimensional
 # array is simply a list of lists.
-
 grid = []
 for row in range(4):
     # Add an empty array that will hold each cell
