@@ -42,7 +42,8 @@ for row in range(4):
 letter_list = []
 for letter in grid:
     letter_list+= letter
-# print(letter_list)
+print(letter_list)
+print(letter_list[-1])
 
 # Initialize pygame
 pygame.init()
@@ -94,10 +95,9 @@ while not done:
     screen.blit(img, rect)
 
     # Draw the grid
-    for letter in img_list:
-        for row in range(4):
-            for column in range(4):
-                letter_idx = 
+    for row in range(4):
+        for column in range(4):
+            for letter in img_list:
                 color = WHITE
                 rect2 = pygame.draw.rect(screen,
                                 color,
@@ -106,14 +106,15 @@ while not done:
                                 WIDTH,
                                 HEIGHT])
                 screen.blit(letter, rect2)
-                letter = img_list.index([letter + 1])
+                if img_list.index(letter) != -1:
+                    letter = img_list[+ 1]
              
 
     # Limit to 60 frames per second
     clock.tick(60)
  
     # Go ahead and update the screen with what we've drawn.
-    pygame.display.flip()
+    pygame.display.update()
  
 # Be IDLE friendly. If you forget this line, the program will 'hang'
 # on exit.
