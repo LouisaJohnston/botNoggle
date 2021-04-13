@@ -62,7 +62,6 @@ for row in range(4):
         cell_img = cell_font.render(grid[row][column], True, BLUE)
         img_list[row].append(cell_img)
 
-
 # Display the score
 score_val = 0
 score_str = str(score_val)
@@ -71,7 +70,6 @@ score_img = score_font.render("Score: " + score_str, True, RED)
 
 score_rect = img.get_rect()
 score_rect.topleft = (175, 70)
-
 
 # Set title of screen
 pygame.display.set_caption("Fake Boggle")
@@ -90,10 +88,18 @@ while not done:
         elif event.type == KEYDOWN:
             if event.key == K_RETURN:
                 if text.lower() in dictionary:
-                    score_val += 1
-                    score_img = score_font.render(str(score_val), True, RED)
+                    if 3 <= len(text) <=4:
+                        score_val += 1
+                    elif len(text) == 5:
+                        score_val += 2
+                    elif len(text) == 6:
+                        score_val += 3
+                    elif len(text) == 7:
+                        score_val += 5
+                    elif len(text) >= 8:
+                        score_val += 11
+                    score_img = score_font.render("Score: " + str(score_val), True, RED)
                     score_rect.size = score_img.get_size()
-                print(score_val)
             elif event.key == K_BACKSPACE:
                 if len(text)>0:
                     text = text[:-1]
@@ -123,9 +129,6 @@ while not done:
                                 WIDTH,
                                 HEIGHT])
                 screen.blit(img_list[row][column], rect2)
-             
-    # Update the score
-    
 
     # Limit to 60 frames per second
     clock.tick(60)
