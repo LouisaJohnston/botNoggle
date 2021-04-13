@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import *
 import time
 import random
-import requests
 import json
 
 # For dictionary
@@ -36,6 +35,61 @@ for row in range(4):
         random_letter = random.choice(BOGGLE_STRING)
         grid[row].append(random_letter)  # Append a cell
 print(grid)
+
+# Grid Trie
+class TrieNode:
+    def __init__(self, char):
+        # Character stored in this node
+        self.char = char
+        # A flag that marks if the word ends on this particular node.
+        self.end_of_word = False
+        # A dictionary of child nodes where the keys are the characters (letters) 
+        # and values are the nodes
+        self.children = {}
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode("")
+
+    def insert (self, string):
+        """Insert a string i.e a word into the trie"""
+        node = self.root
+        # Check each character in the string 
+        # If none of the children of the current node contains the character, 
+        # create a new child of the current node for storing the character.
+        for char in string:
+            if char in node.children:
+                node = node.children[char]
+            else:
+                # As the character is not found, create a new trie node
+                new_node = TrieNode(char)
+                node.children[char] = new_node
+                node = new_node
+        # Mark the end of a word
+        node.end_of_word = True
+
+    def search (self, string):
+        """Search a string i.e search a word in the trie"""
+        node = self.root
+        # Check each character in the string
+        # If none of the children of the node contains the character,
+        # Return none
+        for char in string:
+            if char in node.children:
+                node = node.children[char]
+            else:
+                node = None
+                break
+        return node
+
+t = Trie()
+
+def make_trie():
+    for row in grid:
+        t.insert(row)
+
+make_trie()
+print(t.root.children)
 
 # Initialize pygame
 pygame.init()
@@ -76,7 +130,10 @@ pygame.display.set_caption("Fake Boggle")
  
 # Loop until the user clicks the close button.
 done = False
- 
+
+# Set variable indicating if input text is in the trie to false
+in_trie = False
+
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
  
@@ -87,8 +144,10 @@ while not done:
             done = True  # Flag that we are done so we exit this loop
         elif event.type == KEYDOWN:
             if event.key == K_RETURN:
+                if t.search(text.upper()):
+                    in_trie = True
                 if text.lower() in dictionary:
-                    if 3 <= len(text) <=4:
+                    if 3 <= len(text) <= 4:
                         score_val += 1
                     elif len(text) == 5:
                         score_val += 2
