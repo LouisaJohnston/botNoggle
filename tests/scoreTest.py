@@ -89,15 +89,18 @@ while not done:
             done = True  # Flag that we are done so we exit this loop
         elif event.type == KEYDOWN:
             if event.key == K_RETURN:
-                pass
-                # if text 
+                if text in dictionary:
+                    score_val += 1
+                    print(score_val)
             elif event.key == K_BACKSPACE:
                 if len(text)>0:
                     text = text[:-1]
             else:
                 text += event.unicode
+            score_img =  font.render(score_str, True, RED)
+            score_rect.size = score_img.get_size()
             img = font.render(text, True, BLUE)
-            rect.size=img.get_size()
+            rect.size = img.get_size()
         
 
     # Set the screen background
