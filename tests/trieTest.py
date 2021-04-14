@@ -85,47 +85,66 @@ t = Trie()
 
 # get all possible across lists
 across_lists = []
+reverse_across = []
 # full across
 for row in range(4):
     column_list = []
+    reverse_col = []
     for column in range(4):
         column_list.append(grid[row][column])
+        reverse_col = column_list[::-1]
     across_lists.append(column_list)
+    reverse_across.append(reverse_col)
 # across from idx 1
 for row in range(4):
     column_list = []
+    reverse_col = []
     for column in range(1, 4):
         column_list.append(grid[row][column])
+        reverse_col = column_list[::-1]
     across_lists.append(column_list)
+    reverse_across.append(reverse_col)
 # across from idx 2
 for row in range(4):
     column_list = []
+    reverse_col = []
     for column in range(2, 4):
         column_list.append(grid[row][column])
+        reverse_col = column_list[::-1]
     across_lists.append(column_list)
-
+    reverse_across.append(reverse_col)
 
 # get all possible down lists
 down_lists = []
+reverse_down = []
 # full down 
 for row in range(4):
     column_list = []
+    reverse_col = []
     for column in range(4):
         column_list.append(grid[column][row])
+        reverse_col = column_list[::-1]
     down_lists.append(column_list)
+    reverse_down.append(reverse_col)
+
 # down from idx 1
 for row in range(4):
     column_list = []
+    reverse_col = []
     for column in range(1, 4):
         column_list.append(grid[column][row])
+        reverse_col = column_list[::-1]
     down_lists.append(column_list)
+    reverse_down.append(reverse_col)
 # down from idx 2
 for row in range(4):
     column_list = []
+    reverse_col = []
     for column in range(2, 4):
         column_list.append(grid[column][row])
+        reverse_col = column_list[::-1]
     down_lists.append(column_list)
-
+    reverse_down.append(reverse_col)
 
 ## # ## ## # get all possible forwards diagonal lists # ## # ## # ## # ##
 f_diag_lists = []
@@ -164,8 +183,6 @@ for i in range(2):
         f5 += j
 
 f_diag_lists.extend((f1, f2, f3, f4, f5))
-
-print(f_diag_lists)
 
 ## # ## ## # get all possible backwards diagonal lists # ## # ## # ## # ##
 
@@ -220,6 +237,12 @@ def make_trie():
     for list in f_diag_lists:
         t.insert(list)
     ## # Backwards # ##    
+    for list in reverse_across:
+        t.insert(list)
+    for list in reverse_down:
+        t.insert(list)
+    for list in b_diag_lists:
+        t.insert(list)
  
 make_trie()
 # print(t.root.children)
