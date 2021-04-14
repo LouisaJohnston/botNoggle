@@ -38,11 +38,11 @@ print(grid)
 
 # Grid Trie
 class TrieNode:
-    def __init__(self, letter):
+    def __init__(self, char):
         # Character stored in this node
-        self.letter = letter
+        self.char = char
         # A flag that marks if the word ends on this particular node.
-        self.end_of_grid = False
+        self.end_of_word = False
         # A dictionary of child nodes where the keys are the characters (letters) 
         # and values are the nodes
         self.children = {}
@@ -51,25 +51,30 @@ class Trie:
     def __init__(self):
         self.root = TrieNode("")
 
-    def insert (self, game_grid):
+    def insert (self, string):
         node = self.root
-        # Check each cell in the grid and map out the adjacent cells
-        # create a new child of the current node for storing neighbor cell value
-        for letter in game_grid:
-            new_node = TrieNode(letter)
-            node.children[letter] = new_node
-            node = new_node
+        # Check each character in the string 
+        # If none of the children of the current node contains the character, 
+        # create a new child of the current node for storing the character.
+        for char in string:
+            if char in node.children:
+                node = node.children[char]
+            else:
+                # As the character is not found, create a new trie node
+                new_node = TrieNode(char)
+                node.children[char] = new_node
+                node = new_node
         # Mark the end of a word
-        node.end_of_grid = True
+        node.end_of_word = True
 
-    def search (self, game_grid):
+    def search (self, string):
         node = self.root
         # Check each character in the string
         # If none of the children of the node contains the character,
         # Return none
-        for letter in game_grid:
-            if letter in node.children:
-                node = node.children[letter]
+        for char in string:
+            if char in node.children:
+                node = node.children[char]
             else:
                 node = None
                 break
@@ -77,13 +82,62 @@ class Trie:
 
 t = Trie()
 
-def make_trie():
-    for row in grid:
-        t.insert(row)
-    
+# get all possible across lists
+across_lists = []
+# full across
+for row in range(4):
+    column_list = []
+    for column in range(4):
+        column_list.append(grid[row][column])
+    across_lists.append(column_list)
+# across from idx 1
+for row in range(4):
+    column_list = []
+    for column in range(1, 4):
+        column_list.append(grid[row][column])
+    across_lists.append(column_list)
+# across from idx 2
+for row in range(4):
+    column_list = []
+    for column in range(2, 4):
+        column_list.append(grid[row][column])
+    across_lists.append(column_list)
 
+
+# get all possible down lists
+down_lists = []
+# full down 
+for row in range(4):
+    column_list = []
+    for column in range(4):
+        column_list.append(grid[column][row])
+    down_lists.append(column_list)
+# down from idx 1
+for row in range(4):
+    column_list = []
+    for column in range(1, 4):
+        column_list.append(grid[column][row])
+    down_lists.append(column_list)
+# down from idx 2
+for row in range(4):
+    column_list = []
+    for column in range(2, 4):
+        column_list.append(grid[column][row])
+    down_lists.append(column_list)
+
+print(down_lists)
+
+
+def make_trie():
+    #for across
+    for list in across_lists:
+        t.insert(list)
+    #for down
+    for list in down_lists:
+        t.insert(list)
+# 
 make_trie()
-print(t.root.children)
+# print(t.root.children)
 
 # Initialize pygame
 pygame.init()
