@@ -38,11 +38,11 @@ print(grid)
 
 # Grid Trie
 class TrieNode:
-    def __init__(self, char):
+    def __init__(self, letter):
         # Character stored in this node
-        self.char = char
+        self.letter = letter
         # A flag that marks if the word ends on this particular node.
-        self.end_of_word = False
+        self.end_of_grid = False
         # A dictionary of child nodes where the keys are the characters (letters) 
         # and values are the nodes
         self.children = {}
@@ -51,32 +51,25 @@ class Trie:
     def __init__(self):
         self.root = TrieNode("")
 
-    def insert (self, string):
-        """Insert a string i.e a word into the trie"""
+    def insert (self, game_grid):
         node = self.root
-        # Check each character in the string 
-        # If none of the children of the current node contains the character, 
-        # create a new child of the current node for storing the character.
-        for char in string:
-            if char in node.children:
-                node = node.children[char]
-            else:
-                # As the character is not found, create a new trie node
-                new_node = TrieNode(char)
-                node.children[char] = new_node
-                node = new_node
+        # Check each cell in the grid and map out the adjacent cells
+        # create a new child of the current node for storing neighbor cell value
+        for letter in game_grid:
+            new_node = TrieNode(letter)
+            node.children[letter] = new_node
+            node = new_node
         # Mark the end of a word
-        node.end_of_word = True
+        node.end_of_grid = True
 
-    def search (self, string):
-        """Search a string i.e search a word in the trie"""
+    def search (self, game_grid):
         node = self.root
         # Check each character in the string
         # If none of the children of the node contains the character,
         # Return none
-        for char in string:
-            if char in node.children:
-                node = node.children[char]
+        for letter in game_grid:
+            if letter in node.children:
+                node = node.children[letter]
             else:
                 node = None
                 break
@@ -87,6 +80,7 @@ t = Trie()
 def make_trie():
     for row in grid:
         t.insert(row)
+    
 
 make_trie()
 print(t.root.children)
