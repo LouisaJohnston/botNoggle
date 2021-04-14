@@ -51,12 +51,12 @@ class Trie:
     def __init__(self):
         self.root = TrieNode("")
 
-    def insert (self, string):
+    def insert (self, list):
         node = self.root
-        # Check each character in the string 
+        # Check each character in the list
         # If none of the children of the current node contains the character, 
         # create a new child of the current node for storing the character.
-        for char in string:
+        for char in list:
             if char in node.children:
                 node = node.children[char]
             else:
@@ -125,7 +125,22 @@ for row in range(4):
         column_list.append(grid[column][row])
     down_lists.append(column_list)
 
-print(down_lists)
+# get all possible diagonal lists
+diagonal_list1 = []
+# middle diagonal
+for i in range(4):
+    letter_list = []
+    letter_list.append(grid[i][i])
+    for j in letter_list:
+        diagonal_lists += j
+# other diagonals
+# for i in range(3):
+#     letter_list = []
+#     if grid[i][i] != grid[-1][i]:
+#         letter_list.append(grid[i + 1][i])
+#     for j in letter
+
+print(diagonal_lists)
 
 
 def make_trie():
@@ -179,8 +194,8 @@ pygame.display.set_caption("Fake Boggle")
 # Loop until the user clicks the close button.
 done = False
 
-# Set variable indicating if input text is in the trie to false
-in_trie = False
+# Set variable indicating if input text is in the Trie to false
+in_Trie = False
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
@@ -193,7 +208,7 @@ while not done:
         elif event.type == KEYDOWN:
             if event.key == K_RETURN:
                 if t.search(text.upper()):
-                    in_trie = True
+                    in_Trie = True
                 if text.lower() in dictionary:
                     if 3 <= len(text) <= 4:
                         score_val += 1
