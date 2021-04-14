@@ -83,7 +83,6 @@ class Trie:
 
 t = Trie()
 
-## # ## # ## for forwards words: ## # ## # ##
 # get all possible across lists
 across_lists = []
 # full across
@@ -127,7 +126,8 @@ for row in range(4):
         column_list.append(grid[column][row])
     down_lists.append(column_list)
 
-# get all possible diagonal lists
+
+# get all possible forwards diagonal lists
 f_diag_lists = []
 # middle diagonal
 f1 = []
@@ -151,12 +151,69 @@ for i in range(2):
         letter_list.append(grid[i + 2][i])
     for j in letter_list:
         f3 += j
+f4 = []
+for i in range(3):
+    letter_list =[]
+    if grid[i][i] != grid[i][-1]:
+        letter_list.append(grid[i][i + 1])
+    for j in letter_list:
+        f4 += j
 
-f_diag_lists.extend((f1, f2, f3))
+f5 = []
+for i in range(2):
+    letter_list =[]
+    if grid[i][i] != grid[i][-1]:
+        letter_list.append(grid[i][i + 2])
+    for j in letter_list:
+        f5 += j
+
+f_diag_lists.extend((f1, f2, f3, f4, f5))
 
 print(f_diag_lists)
 
-## # ## # ## for forward words: ## # ## # ##
+# get all possible backwards diagonal lists
+b_diag_lists = []
+# middle diagonal
+b1 = []
+for i in range(4):
+    letter_list = []
+    letter_list.append(grid[i][i])
+    for j in letter_list:
+        b1 += j
+# other diagonals
+b2 = []
+for i in range(3):
+    letter_list = []
+    if grid[i][i] != grid[-1][i]:
+        letter_list.append(grid[i + 1][i])
+    for j in letter_list:
+        f2 += j
+b3 = []
+for i in range(2):
+    letter_list =[]
+    if grid[i][i] != grid[-1][i]:
+        letter_list.append(grid[i + 2][i])
+    for j in letter_list:
+        f3 += j
+b4 = []
+for i in range(3):
+    letter_list =[]
+    if grid[i][i] != grid[i][-1]:
+        letter_list.append(grid[i][i + 1])
+    for j in letter_list:
+        f4 += j
+
+b5 = []
+for i in range(2):
+    letter_list =[]
+    if grid[i][i] != grid[i][-1]:
+        letter_list.append(grid[i][i + 2])
+    for j in letter_list:
+        f5 += j
+
+b_diag_lists.extend((f1, f2, f3, f4, f5))
+
+print(b_diag_lists)
 
 
 def make_trie():
