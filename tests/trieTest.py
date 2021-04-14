@@ -4,6 +4,7 @@ import time
 import random
 import json
 
+# -------- Game State -----------
 # For dictionary
 database = 'words_dictionary.json'
 dictionary = json.loads(open(database).read())
@@ -32,8 +33,8 @@ for row in range(4):
     # in this row
     grid.append([])
     for column in range(4):
-        random_letter = random.choice(BOGGLE_STRING)
-        grid[row].append(random_letter)  # Append a cell
+        random_char = random.choice(BOGGLE_STRING)
+        grid[row].append(random_char)  # Append a cell
 print(grid)
 
 # Grid Trie
@@ -82,6 +83,7 @@ class Trie:
 
 t = Trie()
 
+## # ## # ## for forwards words: ## # ## # ##
 # get all possible across lists
 across_lists = []
 # full across
@@ -126,21 +128,35 @@ for row in range(4):
     down_lists.append(column_list)
 
 # get all possible diagonal lists
-diagonal_list1 = []
+f_diag_lists = []
 # middle diagonal
+f1 = []
 for i in range(4):
     letter_list = []
     letter_list.append(grid[i][i])
     for j in letter_list:
-        diagonal_lists += j
+        f1 += j
 # other diagonals
-# for i in range(3):
-#     letter_list = []
-#     if grid[i][i] != grid[-1][i]:
-#         letter_list.append(grid[i + 1][i])
-#     for j in letter
+f2 = []
+for i in range(3):
+    letter_list = []
+    if grid[i][i] != grid[-1][i]:
+        letter_list.append(grid[i + 1][i])
+    for j in letter_list:
+        f2 += j
+f3 = []
+for i in range(2):
+    letter_list =[]
+    if grid[i][i] != grid[-1][i]:
+        letter_list.append(grid[i + 2][i])
+    for j in letter_list:
+        f3 += j
 
-print(diagonal_lists)
+f_diag_lists.extend((f1, f2, f3))
+
+print(f_diag_lists)
+
+## # ## # ## for forward words: ## # ## # ##
 
 
 def make_trie():
@@ -202,14 +218,14 @@ clock = pygame.time.Clock()
  
 # -------- Main Program Loop -----------
 while not done:
-    for event in pygame.event.get():  # User did something
+    for event in pygame.event.get():  
         if event.type == pygame.QUIT:  # If user clicked close
             done = True  # Flag that we are done so we exit this loop
         elif event.type == KEYDOWN:
             if event.key == K_RETURN:
                 if t.search(text.upper()):
                     in_Trie = True
-                if text.lower() in dictionary:
+                if text.lower() in dictionary and in_Trie == True:
                     if 3 <= len(text) <= 4:
                         score_val += 1
                     elif len(text) == 5:
