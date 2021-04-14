@@ -127,7 +127,7 @@ for row in range(4):
     down_lists.append(column_list)
 
 
-# get all possible forwards diagonal lists
+## # ## ## # get all possible forwards diagonal lists # ## # ## # ## # ##
 f_diag_lists = []
 # middle diagonal
 f1 = []
@@ -140,30 +140,26 @@ for i in range(4):
 f2 = []
 for i in range(3):
     letter_list = []
-    if grid[i][i] != grid[-1][i]:
-        letter_list.append(grid[i + 1][i])
+    letter_list.append(grid[i + 1][i])
     for j in letter_list:
         f2 += j
 f3 = []
 for i in range(2):
     letter_list =[]
-    if grid[i][i] != grid[-1][i]:
-        letter_list.append(grid[i + 2][i])
+    letter_list.append(grid[i + 2][i])
     for j in letter_list:
         f3 += j
 f4 = []
 for i in range(3):
     letter_list =[]
-    if grid[i][i] != grid[i][-1]:
-        letter_list.append(grid[i][i + 1])
+    letter_list.append(grid[i + 1][-i - 1])
     for j in letter_list:
         f4 += j
 
 f5 = []
 for i in range(2):
     letter_list =[]
-    if grid[i][i] != grid[i][-1]:
-        letter_list.append(grid[i][i + 2])
+    letter_list.append(grid[i + 2][-i - 2])
     for j in letter_list:
         f5 += j
 
@@ -171,59 +167,60 @@ f_diag_lists.extend((f1, f2, f3, f4, f5))
 
 print(f_diag_lists)
 
-# get all possible backwards diagonal lists
+## # ## ## # get all possible backwards diagonal lists # ## # ## # ## # ##
+
 b_diag_lists = []
 # middle diagonal
 b1 = []
 for i in range(4):
     letter_list = []
-    letter_list.append(grid[i][i])
+    letter_list.append(grid[i][-i - 1])
     for j in letter_list:
         b1 += j
 # other diagonals
 b2 = []
 for i in range(3):
     letter_list = []
-    if grid[i][i] != grid[-1][i]:
-        letter_list.append(grid[i + 1][i])
+    letter_list.append(grid[i][-i - 2])
     for j in letter_list:
-        f2 += j
+        b2 += j
 b3 = []
 for i in range(2):
     letter_list =[]
-    if grid[i][i] != grid[-1][i]:
-        letter_list.append(grid[i + 2][i])
+    letter_list.append(grid[i][-i - 3])
     for j in letter_list:
-        f3 += j
+        b3 += j
 b4 = []
 for i in range(3):
     letter_list =[]
-    if grid[i][i] != grid[i][-1]:
-        letter_list.append(grid[i][i + 1])
+    letter_list.append(grid[i + 1][-i - 1])
     for j in letter_list:
-        f4 += j
+        b4 += j
 
 b5 = []
 for i in range(2):
     letter_list =[]
-    if grid[i][i] != grid[i][-1]:
-        letter_list.append(grid[i][i + 2])
+    letter_list.append(grid[i + 2][-i - 1])
     for j in letter_list:
-        f5 += j
+        b5 += j
 
-b_diag_lists.extend((f1, f2, f3, f4, f5))
 
-print(b_diag_lists)
+b_diag_lists.extend((b1, b2, b3, b4, b5))
 
 
 def make_trie():
-    #for across
+    ## # Forwards # ##
+    # for across
     for list in across_lists:
         t.insert(list)
-    #for down
+    # for down
     for list in down_lists:
         t.insert(list)
-# 
+    # for diagonal
+    for list in f_diag_lists:
+        t.insert(list)
+    ## # Backwards # ##    
+ 
 make_trie()
 # print(t.root.children)
 
