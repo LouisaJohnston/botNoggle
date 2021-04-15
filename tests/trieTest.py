@@ -173,79 +173,99 @@ print(f'reverse down \n {reverse_down}')
 f_diag_lists = []
 # middle diagonal
 f1 = []
+r_f1 = []
 for i in range(4):
     letter_list = []
     letter_list.append(grid[i][i])
     for j in letter_list:
         f1 += j
+    r_f1 = f1[::-1]
+
 # other diagonals
 f2 = []
+r_f2 = []
 for i in range(3):
     letter_list = []
     letter_list.append(grid[i + 1][i])
     for j in letter_list:
         f2 += j
+    r_f2 = f2[::-1]
 f3 = []
+r_f3 = []
 for i in range(2):
     letter_list =[]
     letter_list.append(grid[i + 2][i])
     for j in letter_list:
         f3 += j
+    r_f3 = f3[::-1]
 f4 = []
+r_f4 = []
 for i in range(3):
     letter_list =[]
     letter_list.append(grid[i][i + 1])
     for j in letter_list:
         f4 += j
+    r_f4 = f4[::-1]
 f5 = []
+r_f5 = []
 for i in range(2):
     letter_list =[]
     letter_list.append(grid[i][i + 2])
     for j in letter_list:
         f5 += j
+    r_f5 = f5[::-1]
 
 
-f_diag_lists.extend((f1, f2, f3, f4, f5))
+f_diag_lists.extend((f1, r_f1, f2, r_f2, f3, r_f3, f4, r_f4, f5, r_f5))
 
 ## # ## ## # get all possible backwards diagonal lists # ## # ## # ## # ##
 
 b_diag_lists = []
 # middle diagonal
 b1 = []
+r_b1 = []
 for i in range(4):
     letter_list = []
     letter_list.append(grid[i][-i - 1])
     for j in letter_list:
         b1 += j
+    r_b1 = b1[::-1]
 # other diagonals
 b2 = []
+r_b2 = []
 for i in range(3):
     letter_list = []
     letter_list.append(grid[i][-i - 2])
     for j in letter_list:
         b2 += j
+    r_b2 = b2[::-1]
 b3 = []
+r_b3 = []
 for i in range(2):
     letter_list =[]
     letter_list.append(grid[i][-i - 3])
     for j in letter_list:
         b3 += j
+    r_b3 = b3[::-1]
 b4 = []
+r_b4 = []
 for i in range(3):
     letter_list =[]
     letter_list.append(grid[i + 1][-i - 1])
     for j in letter_list:
         b4 += j
+    r_b4 = b4[::-1]
 
 b5 = []
+r_b5 = []
 for i in range(2):
     letter_list =[]
     letter_list.append(grid[i + 2][-i - 1])
     for j in letter_list:
         b5 += j
+    r_b5 = b5[::-1]
 
-
-b_diag_lists.extend((b1, b2, b3, b4, b5))
+b_diag_lists.extend((b1, r_b1, b2, r_b2, b3, r_b3, b4, r_b4, b5, r_b5))
 
 print(f'diagonal \n {f_diag_lists}')
 print(f'reverse diagonal \n {b_diag_lists}')
