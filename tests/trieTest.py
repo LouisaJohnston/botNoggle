@@ -121,6 +121,8 @@ for row in range(4):
     across_lists.append(column_list)
     reverse_across.append(reverse_col)
 
+print(f'across \n {across_lists}')
+print(f'reverse across \n {reverse_across}')
 # get all possible down lists
 down_lists = []
 reverse_down = []
@@ -153,6 +155,9 @@ for row in range(4):
     down_lists.append(column_list)
     reverse_down.append(reverse_col)
 
+print(f'down \n {across_lists}')
+print(f'reverse down \n {reverse_down}')
+
 ## # ## ## # get all possible forwards diagonal lists # ## # ## # ## # ##
 f_diag_lists = []
 # middle diagonal
@@ -178,16 +183,16 @@ for i in range(2):
 f4 = []
 for i in range(3):
     letter_list =[]
-    letter_list.append(grid[i + 1][-i - 1])
+    letter_list.append(grid[i][i + 1])
     for j in letter_list:
         f4 += j
-
 f5 = []
 for i in range(2):
     letter_list =[]
-    letter_list.append(grid[i + 2][-i - 2])
+    letter_list.append(grid[i][i + 2])
     for j in letter_list:
         f5 += j
+
 
 f_diag_lists.extend((f1, f2, f3, f4, f5))
 
@@ -231,6 +236,8 @@ for i in range(2):
 
 b_diag_lists.extend((b1, b2, b3, b4, b5))
 
+print(f'diagonal \n {f_diag_lists}')
+print(f'reverse diagonal \n {b_diag_lists}')
 
 def make_trie():
     ## # Forwards # ##
@@ -257,18 +264,18 @@ def make_trie():
 make_trie()
 # print(t.root.children)
 
-def display(trie, s = "", final = []):
-    """Recursive function to Display Trie entries in alphabetical order"""
-    for k, v in sorted(trie.items(), key = lambda x: x[0]):
-        # dictionary sorted based upon the keys
-        if isinstance(v, dict):
-            display(v, s + k, final)   # s+k is extending string s for display by appending current key k
-        else:
-            # replace common elements at beginning of strings with dashes
-            i = sum([any([f.startswith(string[:j]) for f in final]) for j in range(1, len(string))])
-            string = '-' * i + s[i:]
-            print(string + ":", v)  # not a dictionary, so print current edited s and value
-            final.append(s)
+# def display(trie, s = "", final = []):
+#     """Recursive function to Display Trie entries in alphabetical order"""
+#     for k, v in sorted(trie.items(), key = lambda x: x[0]):
+#         # dictionary sorted based upon the keys
+#         if isinstance(v, dict):
+#             display(v, s + k, final)   # s+k is extending string s for display by appending current key k
+#         else:
+#             # replace common elements at beginning of strings with dashes
+#             i = sum([any([f.startswith(string[:j]) for f in final]) for j in range(1, len(string))])
+#             string = '-' * i + s[i:]
+#             print(string + ":", v)  # not a dictionary, so print current edited s and value
+#             final.append(s)
 
 # Initialize pygame
 pygame.init()
