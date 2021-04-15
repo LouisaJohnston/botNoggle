@@ -105,21 +105,27 @@ for row in range(4):
 # across from idx 1
 for row in range(4):
     column_list = []
-    reverse_col = []
     for column in range(1, 4):
         column_list.append(grid[row][column])
-        reverse_col = column_list[::-1]
     across_lists.append(column_list)
-    reverse_across.append(reverse_col)
 # across from idx 2
 for row in range(4):
     column_list = []
-    reverse_col = []
     for column in range(2, 4):
         column_list.append(grid[row][column])
-        reverse_col = column_list[::-1]
     across_lists.append(column_list)
-    reverse_across.append(reverse_col)
+# reverse from idx 1
+for row in range(4):
+    column_list = []
+    for column in reversed(range(3)):
+        column_list.append(grid[row][column])
+    reverse_across.append(column_list)
+# reverse from idx 2
+for row in range(4):
+    column_list = []
+    for column in reversed(range(2)):
+        column_list.append(grid[row][column])
+    reverse_across.append(column_list)
 
 print(f'across \n {across_lists}')
 print(f'reverse across \n {reverse_across}')
@@ -135,25 +141,30 @@ for row in range(4):
         reverse_col = column_list[::-1]
     down_lists.append(column_list)
     reverse_down.append(reverse_col)
-
 # down from idx 1
 for row in range(4):
     column_list = []
-    reverse_col = []
     for column in range(1, 4):
         column_list.append(grid[column][row])
-        reverse_col = column_list[::-1]
     down_lists.append(column_list)
-    reverse_down.append(reverse_col)
 # down from idx 2
 for row in range(4):
     column_list = []
-    reverse_col = []
     for column in range(2, 4):
         column_list.append(grid[column][row])
-        reverse_col = column_list[::-1]
     down_lists.append(column_list)
-    reverse_down.append(reverse_col)
+# reverse from idx 1
+for row in range(4):
+    column_list = []
+    for column in reversed(range(3)):
+        column_list.append(grid[column][row])
+    reverse_down.append(column_list)
+# reverse from idx 2
+for row in range(4):
+    column_list = []
+    for column in reversed(range(2)):
+        column_list.append(grid[column][row])
+    reverse_down.append(column_list)
 
 print(f'down \n {across_lists}')
 print(f'reverse down \n {reverse_down}')
@@ -263,19 +274,6 @@ def make_trie():
  
 make_trie()
 # print(t.root.children)
-
-# def display(trie, s = "", final = []):
-#     """Recursive function to Display Trie entries in alphabetical order"""
-#     for k, v in sorted(trie.items(), key = lambda x: x[0]):
-#         # dictionary sorted based upon the keys
-#         if isinstance(v, dict):
-#             display(v, s + k, final)   # s+k is extending string s for display by appending current key k
-#         else:
-#             # replace common elements at beginning of strings with dashes
-#             i = sum([any([f.startswith(string[:j]) for f in final]) for j in range(1, len(string))])
-#             string = '-' * i + s[i:]
-#             print(string + ":", v)  # not a dictionary, so print current edited s and value
-#             final.append(s)
 
 # Initialize pygame
 pygame.init()
