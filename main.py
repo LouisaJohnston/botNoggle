@@ -4,6 +4,7 @@ import time
 import random
 import json
 
+# -------- Game State -----------
 # For dictionary
 database = 'words_dictionary.json'
 dictionary = json.loads(open(database).read())
@@ -32,9 +33,219 @@ for row in range(4):
     # in this row
     grid.append([])
     for column in range(4):
-        random_letter = random.choice(BOGGLE_STRING)
-        grid[row].append(random_letter)  # Append a cell
+        random_char = random.choice(BOGGLE_STRING)
+        grid[row].append(random_char)  # Append a cell
 print(grid)
+
+# Grid Trie
+class TrieNode:
+    def __init__(self, char):
+        # Character stored in this node
+        self.char = char
+        # A flag that marks if the word ends on this particular node.
+        self.end_of_word = False
+        # A dictionary of child nodes where the keys are the characters (letters) 
+        # and values are the nodes
+        self.children = {}
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode("")
+
+    def insert (self, list):
+        node = self.root
+        # Check each character in the list
+        # If none of the children of the current node contains the character, 
+        # create a new child of the current node for storing the character.
+        for char in list:
+            if char in node.children:
+                node = node.children[char]
+            else:
+                # As the character is not found, create a new trie node
+                new_node = TrieNode(char)
+                node.children[char] = new_node
+                node = new_node
+        # Mark the end of a word
+        node.end_of_word = True
+
+    def search (self, string):
+        node = self.root
+        # Check each character in the string
+        # If none of the children of the node contains the character,
+        # Return none
+        for char in string:
+            if char in node.children:
+                node = node.children[char]
+            else:
+                node = None
+                break
+        return node
+
+t = Trie()
+
+# get all possible across lists
+across_lists = []
+reverse_across = []
+# full across
+for row in range(4):
+    column_list = []
+    reverse_col = []
+    for column in range(4):
+        column_list.append(grid[row][column])
+        reverse_col = column_list[::-1]
+    across_lists.append(column_list)
+    reverse_across.append(reverse_col)
+# across from idx 1
+for row in range(4):
+    column_list = []
+    reverse_col = []
+    for column in range(1, 4):
+        column_list.append(grid[row][column])
+        reverse_col = column_list[::-1]
+    across_lists.append(column_list)
+    reverse_across.append(reverse_col)
+# across from idx 2
+for row in range(4):
+    column_list = []
+    reverse_col = []
+    for column in range(2, 4):
+        column_list.append(grid[row][column])
+        reverse_col = column_list[::-1]
+    across_lists.append(column_list)
+    reverse_across.append(reverse_col)
+
+# get all possible down lists
+down_lists = []
+reverse_down = []
+# full down 
+for row in range(4):
+    column_list = []
+    reverse_col = []
+    for column in range(4):
+        column_list.append(grid[column][row])
+        reverse_col = column_list[::-1]
+    down_lists.append(column_list)
+    reverse_down.append(reverse_col)
+
+# down from idx 1
+for row in range(4):
+    column_list = []
+    reverse_col = []
+    for column in range(1, 4):
+        column_list.append(grid[column][row])
+        reverse_col = column_list[::-1]
+    down_lists.append(column_list)
+    reverse_down.append(reverse_col)
+# down from idx 2
+for row in range(4):
+    column_list = []
+    reverse_col = []
+    for column in range(2, 4):
+        column_list.append(grid[column][row])
+        reverse_col = column_list[::-1]
+    down_lists.append(column_list)
+    reverse_down.append(reverse_col)
+
+## # ## ## # get all possible forwards diagonal lists # ## # ## # ## # ##
+f_diag_lists = []
+# middle diagonal
+f1 = []
+for i in range(4):
+    letter_list = []
+    letter_list.append(grid[i][i])
+    for j in letter_list:
+        f1 += j
+# other diagonals
+f2 = []
+for i in range(3):
+    letter_list = []
+    letter_list.append(grid[i + 1][i])
+    for j in letter_list:
+        f2 += j
+f3 = []
+for i in range(2):
+    letter_list =[]
+    letter_list.append(grid[i + 2][i])
+    for j in letter_list:
+        f3 += j
+f4 = []
+for i in range(3):
+    letter_list =[]
+    letter_list.append(grid[i + 1][-i - 1])
+    for j in letter_list:
+        f4 += j
+
+f5 = []
+for i in range(2):
+    letter_list =[]
+    letter_list.append(grid[i + 2][-i - 2])
+    for j in letter_list:
+        f5 += j
+
+f_diag_lists.extend((f1, f2, f3, f4, f5))
+
+## # ## ## # get all possible backwards diagonal lists # ## # ## # ## # ##
+
+b_diag_lists = []
+# middle diagonal
+b1 = []
+for i in range(4):
+    letter_list = []
+    letter_list.append(grid[i][-i - 1])
+    for j in letter_list:
+        b1 += j
+# other diagonals
+b2 = []
+for i in range(3):
+    letter_list = []
+    letter_list.append(grid[i][-i - 2])
+    for j in letter_list:
+        b2 += j
+b3 = []
+for i in range(2):
+    letter_list =[]
+    letter_list.append(grid[i][-i - 3])
+    for j in letter_list:
+        b3 += j
+b4 = []
+for i in range(3):
+    letter_list =[]
+    letter_list.append(grid[i + 1][-i - 1])
+    for j in letter_list:
+        b4 += j
+
+b5 = []
+for i in range(2):
+    letter_list =[]
+    letter_list.append(grid[i + 2][-i - 1])
+    for j in letter_list:
+        b5 += j
+
+
+b_diag_lists.extend((b1, b2, b3, b4, b5))
+
+
+def make_trie():
+    ## # Forwards # ##
+    # for across
+    for list in across_lists:
+        t.insert(list)
+    # for down
+    for list in down_lists:
+        t.insert(list)
+    # for diagonal
+    for list in f_diag_lists:
+        t.insert(list)
+    ## # Backwards # ##    
+    for list in reverse_across:
+        t.insert(list)
+    for list in reverse_down:
+        t.insert(list)
+    for list in b_diag_lists:
+        t.insert(list)
+ 
+make_trie()
+# print(t.root.children)
 
 # Initialize pygame
 pygame.init()
@@ -75,19 +286,24 @@ pygame.display.set_caption("Fake Boggle")
  
 # Loop until the user clicks the close button.
 done = False
- 
+
+# Set variable indicating if input text is in the Trie to false
+in_Trie = False
+
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
  
 # -------- Main Program Loop -----------
 while not done:
-    for event in pygame.event.get():  # User did something
+    for event in pygame.event.get():  
         if event.type == pygame.QUIT:  # If user clicked close
             done = True  # Flag that we are done so we exit this loop
         elif event.type == KEYDOWN:
             if event.key == K_RETURN:
-                if text.lower() in dictionary:
-                    if 3 <= len(text) <=4:
+                if t.search(text.upper()):
+                    in_Trie = True
+                if text.lower() in dictionary and in_Trie == True:
+                    if 3 <= len(text) <= 4:
                         score_val += 1
                     elif len(text) == 5:
                         score_val += 2

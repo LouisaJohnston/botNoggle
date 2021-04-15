@@ -51,7 +51,6 @@ class TrieNode:
 class Trie:
     def __init__(self):
         self.root = TrieNode("")
-
     def insert (self, list):
         node = self.root
         # Check each character in the list
@@ -64,6 +63,14 @@ class Trie:
                 # As the character is not found, create a new trie node
                 new_node = TrieNode(char)
                 node.children[char] = new_node
+                node = new_node
+        for child in node.children:
+            if child in node.children:
+                node = node.children[child]
+            else:
+                # As the character is not found, create a new trie node
+                new_node = TrieNode(child)
+                node.children[child] = new_node
                 node = new_node
         # Mark the end of a word
         node.end_of_word = True
@@ -237,15 +244,31 @@ def make_trie():
     for list in f_diag_lists:
         t.insert(list)
     ## # Backwards # ##    
+    # for across
     for list in reverse_across:
         t.insert(list)
+    # for down
     for list in reverse_down:
         t.insert(list)
+    # for diagonal
     for list in b_diag_lists:
         t.insert(list)
  
 make_trie()
 # print(t.root.children)
+
+def display(trie, s = "", final = []):
+    """Recursive function to Display Trie entries in alphabetical order"""
+    for k, v in sorted(trie.items(), key = lambda x: x[0]):
+        # dictionary sorted based upon the keys
+        if isinstance(v, dict):
+            display(v, s + k, final)   # s+k is extending string s for display by appending current key k
+        else:
+            # replace common elements at beginning of strings with dashes
+            i = sum([any([f.startswith(string[:j]) for f in final]) for j in range(1, len(string))])
+            string = '-' * i + s[i:]
+            print(string + ":", v)  # not a dictionary, so print current edited s and value
+            final.append(s)
 
 # Initialize pygame
 pygame.init()
