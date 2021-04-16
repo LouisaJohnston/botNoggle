@@ -64,13 +64,13 @@ class Trie:
                 new_node = TrieNode(char)
                 node.children[char] = new_node
                 node = new_node
-        for child in node.children:
-            if child in node.children:
-                node = node.children[child]
+        for char in node.children:
+            if char in node.children:
+                node = node.children[char]
             else:
                 # As the character is not found, create a new trie node
-                new_node = TrieNode(child)
-                node.children[child] = new_node
+                new_node = TrieNode(char)
+                node.children[char] = new_node
                 node = new_node
         # Mark the end of a word
         node.end_of_word = True
@@ -449,7 +449,7 @@ while not done:
             if event.key == K_RETURN:
                 if t.search(text.upper()):
                     in_Trie = True
-                if text.lower() in dictionary and in_Trie == True:
+                if in_Trie == True:
                     if 3 <= len(text) <= 4:
                         score_val += 1
                     elif len(text) == 5:
@@ -463,7 +463,7 @@ while not done:
                     score_img = score_font.render("Score: " + str(score_val), True, RED)
                     score_rect.size = score_img.get_size()
             elif event.key == K_BACKSPACE:
-                if len(text)>0:
+                if len(text) > 0:
                     text = text[:-1]
             else:
                 text += event.unicode
@@ -496,6 +496,7 @@ while not done:
     clock.tick(60)
  
     # Go ahead and update the screen with what we've drawn.
+    in_Trie = False
     pygame.display.update()
  
 # Be IDLE friendly. If you forget this line, the program will 'hang'

@@ -47,8 +47,6 @@ class TrieNode:
         # A dictionary of child nodes where the keys are the characters (letters) 
         # and values are the nodes
         self.children = {}
-    def __repr__(self):
-        return f'{self.end_of_word} {self.children}'
 
 class Trie:
     def __init__(self):
@@ -66,14 +64,14 @@ class Trie:
                 new_node = TrieNode(char)
                 node.children[char] = new_node
                 node = new_node
-        for child in node.children:
-            if child in node.children:
-                node = node.children[child]
-            else:
-                # As the character is not found, create a new trie node
-                new_node = TrieNode(child)
-                node.children[child] = new_node
-                node = new_node
+            for char in node.children:
+                if char in node.children:
+                    node = node.children[char]
+                else:
+                    # As the character is not found, create a new trie node
+                    new_node = TrieNode(char)
+                    node.children[char] = new_node
+                    node = new_node
         # Mark the end of a word
         node.end_of_word = True
 
@@ -89,10 +87,9 @@ class Trie:
                 node = None
                 break
         return node
-    def __repr__(self):
-        return repr(self.root)
 
 t = Trie()
+
 # get all possible across lists
 across_lists = []
 reverse_across = []
@@ -396,12 +393,12 @@ def make_trie():
  
 make_trie()
 # print(t.root.children)
-print(t)
+
 # Initialize pygame
 pygame.init()
  
 # Set the HEIGHT and WIDTH of the screen
-WINDOW_SIZE = [640, 400]
+WINDOW_SIZE = [640, 255]
 screen = pygame.display.set_mode(WINDOW_SIZE)
 
 # Input text Variables
@@ -452,7 +449,6 @@ while not done:
             if event.key == K_RETURN:
                 if t.search(text.upper()):
                     in_Trie = True
-                # if text.lower() in dictionary and in_Trie == True and text.lower not in found_words:
                 if in_Trie == True:
                     if 3 <= len(text) <= 4:
                         score_val += 1
@@ -466,7 +462,6 @@ while not done:
                         score_val += 11
                     score_img = score_font.render("Score: " + str(score_val), True, RED)
                     score_rect.size = score_img.get_size()
-                    # found_words.append(text.lower)
             elif event.key == K_BACKSPACE:
                 if len(text) > 0:
                     text = text[:-1]
@@ -483,16 +478,6 @@ while not done:
 
     # Display score
     screen.blit(score_img, score_rect)
-
-
-    # found words variables
-    # found_words = []
-    # found_font = pygame.font.SysFont(None, 48)
-    # found_img = font.render("Found:" + word, True, BLUE)
-    # for word in found_words:
-    #     found_rect = found_img.get_rect()
-    #     found_rect.topleft = (175, 60)
-    #     screen.blit(found_img, found_rect)
 
     # Draw the grid
     for row in range(4):
@@ -511,8 +496,8 @@ while not done:
     clock.tick(60)
  
     # Go ahead and update the screen with what we've drawn.
-    pygame.display.update()
     in_Trie = False
+    pygame.display.update()
  
 # Be IDLE friendly. If you forget this line, the program will 'hang'
 # on exit.
