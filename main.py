@@ -43,7 +43,7 @@ for row in grid:
     str_row += ''.join(row)
     str_grid.append(str_row)
 
-# Pattern match  
+# store grid row/column length
 r = 4
 c = 4
   
@@ -54,20 +54,19 @@ def find_match(match, patt, x, y, nrow, ncol, level) :
     if (level == l) :
         return True
   
-    # Out of Boundary 
+    # set grid boundary
     if (x < 0 or y < 0 or 
         x >= nrow or y >= ncol) :
         return False
   
-    # If grid matches with a letter 
-    # while recursion 
+    # If grid matches with a letter use recsursion to check neighboring letters
     if (match[x][y] == patt[level]) :
   
-        # Marking this cell as visited 
+        # Mark cell as visited 
         temp = match[x][y]
         match[x].replace(match[x][y], "#")
   
-        # check all four directions in 4 directions 
+        # check all adjacent letters
         res = (find_match(match, patt, x - 1, y, nrow, ncol, level + 1) | 
                find_match(match, patt, x + 1, y, nrow, ncol, level + 1) | 
                find_match(match, patt, x, y - 1, nrow, ncol, level + 1) |
@@ -77,7 +76,7 @@ def find_match(match, patt, x, y, nrow, ncol, level) :
                find_match(match, patt, x + 1, y - 1, nrow, ncol, level + 1) |
                find_match(match, patt, x - 1, y - 1, nrow, ncol, level + 1)) 
   
-        # marking this cell as unvisited again 
+        # reset cell to unvisited
         match[x].replace(match[x][y], temp)
         return res
       
