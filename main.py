@@ -168,7 +168,7 @@ while not done:
         elif event.type == KEYDOWN:
             if event.key == K_RETURN:
                 # if (checkMatch(grid, text.lower(), r, c)) and text.lower() in dictionary and text.lower() not in found_words:
-                if (check_match(str_grid, text.upper(), r, c)):
+                if (check_match(str_grid, text.upper(), r, c)) and text.lower() not in found_words and text.lower() in dictionary:
                     found_words.append(text.lower())
                     print(found_words)
                     if 3 <= len(text) <= 4:

@@ -47,13 +47,10 @@ for row in grid:
 r = 4
 c = 4
   
-# Function to check if a word exists 
-# in the grid
-def find_match(mat, pat, x, y, nrow, ncol, level) :
+# Function to find adjacent letters in the grid
+def find_match(match, patt, x, y, nrow, ncol, level) :
+    l = len(patt) 
   
-    l = len(pat) 
-  
-    # Pattern matched 
     if (level == l) :
         return True
   
@@ -64,29 +61,33 @@ def find_match(mat, pat, x, y, nrow, ncol, level) :
   
     # If grid matches with a letter 
     # while recursion 
-    if (mat[x][y] == pat[level]) :
+    if (match[x][y] == patt[level]) :
   
         # Marking this cell as visited 
-        temp = mat[x][y]
-        mat[x].replace(mat[x][y], "#")
+        temp = match[x][y]
+        match[x].replace(match[x][y], "#")
   
-        # finding subpattern in 4 directions 
-        res = (find_match(mat, pat, x - 1, y, nrow, ncol, level + 1) | 
-               find_match(mat, pat, x + 1, y, nrow, ncol, level + 1) | 
-               find_match(mat, pat, x, y - 1, nrow, ncol, level + 1) |
-               find_match(mat, pat, x, y + 1, nrow, ncol, level + 1)) 
+        # check all four directions in 4 directions 
+        res = (find_match(match, patt, x - 1, y, nrow, ncol, level + 1) | 
+               find_match(match, patt, x + 1, y, nrow, ncol, level + 1) | 
+               find_match(match, patt, x, y - 1, nrow, ncol, level + 1) |
+               find_match(match, patt, x, y + 1, nrow, ncol, level + 1) |
+               find_match(match, patt, x + 1, y + 1, nrow, ncol, level + 1) |
+               find_match(match, patt, x - 1, y + 1, nrow, ncol, level + 1) |
+               find_match(match, patt, x + 1, y - 1, nrow, ncol, level + 1) |
+               find_match(match, patt, x - 1, y - 1, nrow, ncol, level + 1)) 
   
         # marking this cell as unvisited again 
-        mat[x].replace(mat[x][y], temp)
+        match[x].replace(match[x][y], temp)
         return res
       
     else :
         return False
   
-# Function to check if the word exists in the grid or not 
-def check_match(mat, pat, nrow, ncol) :
+# Function to check if word exists in the grid or not 
+def check_match(match, patt, nrow, ncol) :
   
-    l = len(pat)
+    l = len(patt)
   
     # if total characters in matrix is less then pattern length 
     if (l > nrow * ncol) :
@@ -97,8 +98,8 @@ def check_match(mat, pat, nrow, ncol) :
         for j in range(ncol) :
   
             # If first letter matches, then recur and check 
-            if (mat[i][j] == pat[0]) :
-                if (find_match(mat, pat, i, j, 
+            if (match[i][j] == patt[0]) :
+                if (find_match(match, patt, i, j, 
                               nrow, ncol, 0)) :
                     return True
     return False
@@ -121,8 +122,12 @@ rect = img.get_rect()
 rect.topleft = (175, 20)
 
 # store found words
-found_words = []
-found_font = pygame.font.SysFont(None, 48)
+found_words = ['yeesh', 'boop', 'moop']
+found_font = pygame.font.SysFont(None, 30)
+
+found_title_img = found_font.render("Found:", True, BLUE)
+found_title_rect = found_title_img.get_rect()
+found_title_rect.topleft = (175, 120)
 
 # turn the letter list into multidimensional array of pygame images
 img_list = []
@@ -156,19 +161,12 @@ clock = pygame.time.Clock()
  
 # -------- Main Program Loop -----------
 while not done:
-    # found words variables
-    for word in found_words:
-        found_img = font.render("Found:" + word, True, BLUE)
-        found_rect = found_img.get_rect()
-        found_rect.topleft = (175, 60)
-        screen.blit(found_img, found_rect)
     for event in pygame.event.get():  
         if event.type == pygame.QUIT:  # If user clicked close
             done = True  # Flag that we are done so we exit this loop
         elif event.type == KEYDOWN:
             if event.key == K_RETURN:
-                # if (checkMatch(grid, text.lower(), r, c)) and text.lower() in dictionary and text.lower() not in found_words:
-                if (check_match(str_grid, text.upper(), r, c)):
+                if (check_match(str_grid, text.upper(), r, c)) and text.lower() not in found_words and text.lower() in dictionary:
                     found_words.append(text.lower())
                     print(found_words)
                     if 3 <= len(text) <= 4:
@@ -183,6 +181,12 @@ while not done:
                         score_val += 11
                     score_img = score_font.render("Score: " + str(score_val), True, RED)
                     score_rect.size = score_img.get_size()
+                        # found words variables
+                    # for word in found_words:
+                    #     found_img = font.render("Found:" + word, True, BLUE)
+                    #     found_rect = found_img.get_rect()
+                    #     found_rect.topleft = (175, 60)
+                    #     screen.blit(found_img, found_rect)
             elif event.key == K_BACKSPACE:
                 if len(text) > 0:
                     text = text[:-1]
@@ -201,6 +205,15 @@ while not done:
     screen.blit(score_img, score_rect)
 
 
+    for word in found_words:
+        found_img = found_font.render(word, True, BLUE)
+        found_rect = found_img.get_rect()
+        found_rect.topleft = (175, 150)
+        screen.blit(found_img, found_rect)
+    
+    # Display found words
+    screen.blit(found_title_img, found_title_rect)
+ 
 
     # Draw the grid
     for row in range(4):
