@@ -59,6 +59,7 @@ def make_trie():
         t.insert(string)
  
 make_trie()
+print(t.root.children)
 
 # Define colors
 BLACK = (0, 0, 0)
@@ -80,12 +81,11 @@ BOGGLE_STRING = "AAEEGNELRTTYAOOTTWABBJOOEHRTVWCIMOTUDISTTYEIOSSTDELRVYACHOPSHIM
 # Create a 2 dimensional array
 grid = []
 for row in range(4):
-    # Add an empty array that will hold each cell
-    # in this row
     grid.append([])
     for column in range(4):
         random_char = random.choice(BOGGLE_STRING)
         grid[row].append(random_char)  # Append a cell
+print(grid)
 
 str_grid = []
 for row in grid:
@@ -109,8 +109,7 @@ def find_match(match, patt, x, y, nrow, ncol, level) :
         x >= nrow or y >= ncol) :
         return False
   
-    # If grid matches with a letter 
-    # while recursion 
+    # USe recursion to find grid letter matches
     if (match[x][y] == patt[level]) :
   
         # Marking this cell as visited 
@@ -172,8 +171,24 @@ rect = img.get_rect()
 rect.topleft = (175, 20)
 
 # store found words
-found_words = ['yeesh', 'boop', 'moop']
+found_words = []
 found_font = pygame.font.SysFont(None, 30)
+
+# Function to space out found words
+def blit_text(surface, text, pos, font, color=pygame.Color('BLUE')):
+    space = font.size(' ')[0]  # The width of a space.
+    max_width, max_height = surface.get_size()
+    x, y = pos
+    for word in found_words:
+        found_img = found_font.render(word, True, BLUE)
+        word_width, word_height = found_img.get_size()
+        if x + word_width >= max_width:
+            x = pos[0]  # Reset the x.
+            y += word_height  # Start on new row.
+        surface.blit(found_img, (x, y))
+        x += word_width + space
+    x = pos[0]  # Reset the x.
+    y += word_height  # Start on new row.
 
 found_title_img = found_font.render("Found:", True, BLUE)
 found_title_rect = found_title_img.get_rect()
@@ -209,7 +224,7 @@ in_Trie = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
  
-# -------- Main Program Loop -----------
+# -------- Game Loop -----------
 while not done:
     for event in pygame.event.get():  
         if event.type == pygame.QUIT:  # If user clicked close
@@ -220,6 +235,7 @@ while not done:
                     in_Trie = True
                 if (check_match(str_grid, text.upper(), r, c)) and text.lower() not in found_words and in_Trie == True:
                     found_words.append(text.lower())
+                    print(found_words)
                     if 3 <= len(text) <= 4:
                         score_val += 1
                     elif len(text) == 5:
@@ -232,12 +248,6 @@ while not done:
                         score_val += 11
                     score_img = score_font.render("Score: " + str(score_val), True, RED)
                     score_rect.size = score_img.get_size()
-                        # found words variables
-                    # for word in found_words:
-                    #     found_img = font.render("Found:" + word, True, BLUE)
-                    #     found_rect = found_img.get_rect()
-                    #     found_rect.topleft = (175, 60)
-                    #     screen.blit(found_img, found_rect)
             elif event.key == K_BACKSPACE:
                 if len(text) > 0:
                     text = text[:-1]
@@ -254,17 +264,10 @@ while not done:
 
     # Display score
     screen.blit(score_img, score_rect)
-
-
-    for word in found_words:
-        found_img = found_font.render(word, True, BLUE)
-        found_rect = found_img.get_rect()
-        found_rect.topleft = (175, 150)
-        screen.blit(found_img, found_rect)
     
     # Display found words
     screen.blit(found_title_img, found_title_rect)
- 
+    blit_text(screen, found_words, (175, 150), found_font)
 
     # Draw the grid
     for row in range(4):
