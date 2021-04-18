@@ -76,16 +76,49 @@ HEIGHT = 20
 MARGIN = 5 
 
 # Holds the boggle letter distribution
-BOGGLE_STRING = "AAEEGNELRTTYAOOTTWABBJOOEHRTVWCIMOTUDISTTYEIOSSTDELRVYACHOPSHIMNEEINSUEEGHNWAFFKPSHLNNRZDEILRX"
+# BOGGLE_STRING = "AAEEGNELRTTYAOOTTWABBJOOEHRTVWCIMOTUDISTTYEIOSSTDELRVYACHOPSHIMNEEINSUEEGHNWAFFKPSHLNNRZDEILRX"
+BOGGLE_STRING = [
+	[
+        'AAEEGN',
+	    'ABBJOO',
+	    'ACHOPS',
+	    'AFFKPS'
+    ], [
+        'AOOTTW',
+        'CIMOTU',
+        'DEILRX',
+        'DELRVY'
+    ], [
+        'DISTTY',
+        'EEGHNW',
+        'EEINSU',
+        'EHRTVW'
+    ], [
+        'EIOSST',
+        'ELRTTY',
+        'HIMNU',
+        'HLNNRZ',
+    ]
+]
 
-# Create a 2 dimensional array
+# Create a two-dimensional array
+# grid = []
+# for row in range(4):
+#     grid.append([])
+#     for column in range(4):
+#         random_char = random.choice(BOGGLE_STRING)
+#         grid[row].append(random_char)  # Append a cell
+# print(grid)
+
+
 grid = []
 for row in range(4):
     grid.append([])
     for column in range(4):
-        random_char = random.choice(BOGGLE_STRING)
+        random_char = random.choice(BOGGLE_STRING[row][column])
         grid[row].append(random_char)  # Append a cell
 print(grid)
+
 
 str_grid = []
 for row in grid:
@@ -187,8 +220,8 @@ def blit_text(surface, text, pos, font, color=pygame.Color('BLUE')):
             y += word_height  # Start on new row.
         surface.blit(found_img, (x, y))
         x += word_width + space
-    x = pos[0]  # Reset the x.
-    y += word_height  # Start on new row.
+        x = pos[0]  # Reset the x.
+        y += word_height  # Start on new row.
 
 found_title_img = found_font.render("Found:", True, BLUE)
 found_title_rect = found_title_img.get_rect()
