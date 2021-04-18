@@ -59,7 +59,7 @@ def make_trie():
         t.insert(string)
  
 make_trie()
-print(t.root.children)
+# print(t.root.children)
 
 # Define colors
 BLACK = (0, 0, 0)
@@ -76,8 +76,7 @@ HEIGHT = 20
 MARGIN = 5 
 
 # Holds the boggle letter distribution
-# BOGGLE_STRING = "AAEEGNELRTTYAOOTTWABBJOOEHRTVWCIMOTUDISTTYEIOSSTDELRVYACHOPSHIMNEEINSUEEGHNWAFFKPSHLNNRZDEILRX"
-BOGGLE_STRING = [
+NOGGLE_STRING = [
 	[
         'AAEEGN',
 	    'ABBJOO',
@@ -101,21 +100,11 @@ BOGGLE_STRING = [
     ]
 ]
 
-# Create a two-dimensional array
-# grid = []
-# for row in range(4):
-#     grid.append([])
-#     for column in range(4):
-#         random_char = random.choice(BOGGLE_STRING)
-#         grid[row].append(random_char)  # Append a cell
-# print(grid)
-
-
 grid = []
 for row in range(4):
     grid.append([])
     for column in range(4):
-        random_char = random.choice(BOGGLE_STRING[row][column])
+        random_char = random.choice(NOGGLE_STRING[row][column])
         grid[row].append(random_char)  # Append a cell
 print(grid)
 
