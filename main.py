@@ -9,7 +9,58 @@ import json
 database = 'words_dictionary.json'
 dictionary = json.loads(open(database).read())
 
-# Define some colors
+# dictionary Trie
+class TrieNode:
+    def __init__(self, char):
+        # Character stored in this node
+        self.char = char
+        # A flag that marks if the word ends on this particular node.
+        self.end_of_word = False
+        # A dictionary of child nodes where the keys are the characters (letters) 
+        # and values are the nodes
+        self.children = {}
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode("")
+    def insert (self, string):
+        node = self.root
+        # Check each character in the string
+        # If none of the children of the current node contains the character, 
+        # create a new child of the current node for storing the character.
+        for char in string:
+            if char in node.children:
+                node = node.children[char]
+            else:
+                # As the character is not found, create a new trie node
+                new_node = TrieNode(char)
+                node.children[char] = new_node
+                node = new_node
+        # Mark the end of a word
+        node.end_of_word = True
+
+    def search (self, string):
+        node = self.root
+        # Check each character in the string
+        # If none of the children of the node contains the character,
+        # Return none
+        for char in string:
+            if char in node.children:
+                node = node.children[char]
+            else:
+                node = None
+                break
+        return node
+
+t = Trie()
+
+def make_trie():
+    for string in dictionary.keys():
+        t.insert(string)
+ 
+make_trie()
+
+# Define colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
@@ -35,7 +86,6 @@ for row in range(4):
     for column in range(4):
         random_char = random.choice(BOGGLE_STRING)
         grid[row].append(random_char)  # Append a cell
-print(grid)
 
 str_grid = []
 for row in grid:
@@ -43,7 +93,7 @@ for row in grid:
     str_row += ''.join(row)
     str_grid.append(str_row)
 
-# store grid row/column length
+# Pattern match  
 r = 4
 c = 4
   
@@ -54,19 +104,20 @@ def find_match(match, patt, x, y, nrow, ncol, level) :
     if (level == l) :
         return True
   
-    # set grid boundary
+    # Out of Boundary 
     if (x < 0 or y < 0 or 
         x >= nrow or y >= ncol) :
         return False
   
-    # If grid matches with a letter use recsursion to check neighboring letters
+    # If grid matches with a letter 
+    # while recursion 
     if (match[x][y] == patt[level]) :
   
-        # Mark cell as visited 
+        # Marking this cell as visited 
         temp = match[x][y]
         match[x].replace(match[x][y], "#")
   
-        # check all adjacent letters
+        # check all four directions in 4 directions 
         res = (find_match(match, patt, x - 1, y, nrow, ncol, level + 1) | 
                find_match(match, patt, x + 1, y, nrow, ncol, level + 1) | 
                find_match(match, patt, x, y - 1, nrow, ncol, level + 1) |
@@ -76,7 +127,7 @@ def find_match(match, patt, x, y, nrow, ncol, level) :
                find_match(match, patt, x + 1, y - 1, nrow, ncol, level + 1) |
                find_match(match, patt, x - 1, y - 1, nrow, ncol, level + 1)) 
   
-        # reset cell to unvisited
+        # marking this cell as unvisited again 
         match[x].replace(match[x][y], temp)
         return res
       
@@ -121,7 +172,7 @@ rect = img.get_rect()
 rect.topleft = (175, 20)
 
 # store found words
-found_words = []
+found_words = ['yeesh', 'boop', 'moop']
 found_font = pygame.font.SysFont(None, 30)
 
 found_title_img = found_font.render("Found:", True, BLUE)
@@ -147,13 +198,13 @@ score_rect = img.get_rect()
 score_rect.topleft = (175, 70)
 
 # Set title of screen
-pygame.display.set_caption("Fake Boggle")
+pygame.display.set_caption("Bot Noggle")
  
 # Loop until the user clicks the close button.
 done = False
 
 # Set variable indicating if input text is in the Trie to false
-in_Grid = False
+in_Trie = False
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
@@ -165,9 +216,10 @@ while not done:
             done = True  # Flag that we are done so we exit this loop
         elif event.type == KEYDOWN:
             if event.key == K_RETURN:
-                if (check_match(str_grid, text.upper(), r, c)) and text.lower() not in found_words and text.lower() in dictionary:
+                if t.search(text.lower()):
+                    in_Trie = True
+                if (check_match(str_grid, text.upper(), r, c)) and text.lower() not in found_words and in_Trie == True:
                     found_words.append(text.lower())
-                    print(found_words)
                     if 3 <= len(text) <= 4:
                         score_val += 1
                     elif len(text) == 5:
