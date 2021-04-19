@@ -72,10 +72,10 @@ BLUE = (0, 0, 128)
 WIDTH = 20
 HEIGHT = 20
 
-# This sets the margin between each cell
+# This sets the margin between each grid cell
 MARGIN = 5 
 
-# Holds the boggle letter distribution
+# Holds the dice letter distribution
 NOGGLE_STRING = [
 	[
         'AAEEGN',
@@ -115,63 +115,50 @@ for row in grid:
     str_row += ''.join(row)
     str_grid.append(str_row)
 
-# Pattern match  
+# input_textern match  
 r = 4
 c = 4
   
 # Function to find adjacent letters in the grid
-def find_match(match, patt, x, y, nrow, ncol, level) :
-    l = len(patt) 
-  
-    if (level == l) :
+def find_match(grid, input_text, x, y, nrow, ncol, level):
+    l = len(input_text) 
+    if level == l:
         return True
-  
     # Out of Boundary 
-    if (x < 0 or y < 0 or 
-        x >= nrow or y >= ncol) :
+    if x < 0 or y < 0 or x >= nrow or y >= ncol:
         return False
-  
     # USe recursion to find grid letter matches
-    if (match[x][y] == patt[level]) :
-  
+    if grid[x][y] == input_text[level]:
         # Marking this cell as visited 
-        temp = match[x][y]
-        match[x].replace(match[x][y], "#")
-  
-        # check all four directions in 4 directions 
-        res = (find_match(match, patt, x - 1, y, nrow, ncol, level + 1) | 
-               find_match(match, patt, x + 1, y, nrow, ncol, level + 1) | 
-               find_match(match, patt, x, y - 1, nrow, ncol, level + 1) |
-               find_match(match, patt, x, y + 1, nrow, ncol, level + 1) |
-               find_match(match, patt, x + 1, y + 1, nrow, ncol, level + 1) |
-               find_match(match, patt, x - 1, y + 1, nrow, ncol, level + 1) |
-               find_match(match, patt, x + 1, y - 1, nrow, ncol, level + 1) |
-               find_match(match, patt, x - 1, y - 1, nrow, ncol, level + 1)) 
-  
+        temp = grid[x][y]
+        grid[x].replace(grid[x][y], "#")
+        # check neighboring letters in all eight directions
+        res = (find_match(grid, input_text, x - 1, y, nrow, ncol, level + 1) | 
+               find_match(grid, input_text, x + 1, y, nrow, ncol, level + 1) | 
+               find_match(grid, input_text, x, y - 1, nrow, ncol, level + 1) |
+               find_match(grid, input_text, x, y + 1, nrow, ncol, level + 1) |
+               find_match(grid, input_text, x + 1, y + 1, nrow, ncol, level + 1) |
+               find_match(grid, input_text, x - 1, y + 1, nrow, ncol, level + 1) |
+               find_match(grid, input_text, x + 1, y - 1, nrow, ncol, level + 1) |
+               find_match(grid, input_text, x - 1, y - 1, nrow, ncol, level + 1)) 
         # marking this cell as unvisited again 
-        match[x].replace(match[x][y], temp)
+        grid[x].replace(grid[x][y], temp)
         return res
-      
-    else :
+    else:
         return False
   
 # Function to check if word exists in the grid or not 
-def check_match(match, patt, nrow, ncol) :
-  
-    l = len(patt)
-  
-    # if total characters in matrix is less then pattern length 
-    if (l > nrow * ncol) :
+def check_match(grid, input_text, nrow, ncol):
+    l = len(input_text)
+    # if total characters in matrix is less then input_textern length 
+    if l > nrow * ncol:
         return False
-  
     # Traverse in the grid 
-    for i in range(nrow) :
-        for j in range(ncol) :
-  
+    for i in range(nrow):
+        for j in range(ncol):
             # If first letter matches, then recur and check 
-            if (match[i][j] == patt[0]) :
-                if (find_match(match, patt, i, j, 
-                              nrow, ncol, 0)) :
+            if grid[i][j] == input_text[0]:
+                if find_match(grid,input_text, i, j, nrow, ncol, 0):
                     return True
     return False
 
@@ -197,7 +184,7 @@ found_words = []
 found_font = pygame.font.SysFont(None, 30)
 
 # Function to space out found words
-def blit_text(surface, text, pos, font, color=pygame.Color('BLUE')):
+def blit_text(surface, text, pos, font, color = pygame.Color('BLUE')):
     space = font.size(' ')[0]  # The width of a space.
     max_width, max_height = surface.get_size()
     x, y = pos
@@ -307,7 +294,7 @@ while not done:
     # Limit to 60 frames per second
     clock.tick(60)
  
-    # Go ahead and update the screen with what we've drawn.
+    # Update the screen with what we've drawn.
     pygame.display.update()
     in_Trie = False
  
