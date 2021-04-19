@@ -122,7 +122,7 @@ r = 4
 c = 4
   
 # Function to find adjacent letters in the grid
-def find_match(grid, input_text, x, y, nrow, ncol, level):
+def find_match(noggle_grid, input_text, x, y, nrow, ncol, level):
     l = len(input_text) 
     if level == l:
         return True
@@ -130,27 +130,27 @@ def find_match(grid, input_text, x, y, nrow, ncol, level):
     if x < 0 or y < 0 or x >= nrow or y >= ncol:
         return False
     # Use recursion to find grid letter matches
-    if grid[x][y] == input_text[level]:
+    if noggle_grid[x][y] == input_text[level]:
         # Marking this cell as visited 
-        temp = grid[x][y]
-        grid[x].replace(grid[x][y], "#")
+        temp = noggle_grid[x][y]
+        noggle_grid[x].replace(noggle_grid[x][y], "#")
         # check neighboring letters in all eight directions
-        res = (find_match(grid, input_text, x - 1, y, nrow, ncol, level + 1) | 
-               find_match(grid, input_text, x + 1, y, nrow, ncol, level + 1) | 
-               find_match(grid, input_text, x, y - 1, nrow, ncol, level + 1) |
-               find_match(grid, input_text, x, y + 1, nrow, ncol, level + 1) |
-               find_match(grid, input_text, x + 1, y + 1, nrow, ncol, level + 1) |
-               find_match(grid, input_text, x - 1, y + 1, nrow, ncol, level + 1) |
-               find_match(grid, input_text, x + 1, y - 1, nrow, ncol, level + 1) |
-               find_match(grid, input_text, x - 1, y - 1, nrow, ncol, level + 1)) 
+        res = (find_match(noggle_grid, input_text, x - 1, y, nrow, ncol, level + 1) | 
+               find_match(noggle_grid, input_text, x + 1, y, nrow, ncol, level + 1) | 
+               find_match(noggle_grid, input_text, x, y - 1, nrow, ncol, level + 1) |
+               find_match(noggle_grid, input_text, x, y + 1, nrow, ncol, level + 1) |
+               find_match(noggle_grid, input_text, x + 1, y + 1, nrow, ncol, level + 1) |
+               find_match(noggle_grid, input_text, x - 1, y + 1, nrow, ncol, level + 1) |
+               find_match(noggle_grid, input_text, x + 1, y - 1, nrow, ncol, level + 1) |
+               find_match(noggle_grid, input_text, x - 1, y - 1, nrow, ncol, level + 1)) 
         # marking this cell as unvisited again 
-        grid[x].replace(grid[x][y], temp)
+        noggle_grid[x].replace(noggle_grid[x][y], temp)
         return res
     else:
         return False
   
 # Function to check if word exists in the grid or not 
-def check_match(grid, input_text, nrow, ncol):
+def check_match(noggle_grid, input_text, nrow, ncol):
     l = len(input_text)
     # if total characters in matrix is less then input text length 
     if l > nrow * ncol:
@@ -159,8 +159,8 @@ def check_match(grid, input_text, nrow, ncol):
     for i in range(nrow):
         for j in range(ncol):
             # If first letter matches, then recur and check 
-            if grid[i][j] == input_text[0]:
-                if find_match(grid,input_text, i, j, nrow, ncol, 0):
+            if noggle_grid[i][j] == input_text[0]:
+                if find_match(noggle_grid,input_text, i, j, nrow, ncol, 0):
                     return True
     return False
 
