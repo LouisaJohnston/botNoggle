@@ -52,6 +52,7 @@ class Trie:
                 break
         return node
 
+
 t = Trie()
 
 def make_trie():
@@ -100,6 +101,7 @@ NOGGLE_STRING = [
     ]
 ]
 
+# For building the grid
 grid = []
 for row in range(4):
     grid.append([])
@@ -108,14 +110,14 @@ for row in range(4):
         grid[row].append(random_char)  # Append a cell
 print(grid)
 
-
+# For checking input text
 str_grid = []
 for row in grid:
     str_row = ''
     str_row += ''.join(row)
     str_grid.append(str_row)
 
-# input_textern match  
+# Set the row/column length  
 r = 4
 c = 4
   
@@ -124,10 +126,10 @@ def find_match(grid, input_text, x, y, nrow, ncol, level):
     l = len(input_text) 
     if level == l:
         return True
-    # Out of Boundary 
+    # Check if out of grid boundary 
     if x < 0 or y < 0 or x >= nrow or y >= ncol:
         return False
-    # USe recursion to find grid letter matches
+    # Use recursion to find grid letter matches
     if grid[x][y] == input_text[level]:
         # Marking this cell as visited 
         temp = grid[x][y]
@@ -150,7 +152,7 @@ def find_match(grid, input_text, x, y, nrow, ncol, level):
 # Function to check if word exists in the grid or not 
 def check_match(grid, input_text, nrow, ncol):
     l = len(input_text)
-    # if total characters in matrix is less then input_textern length 
+    # if total characters in matrix is less then input text length 
     if l > nrow * ncol:
         return False
     # Traverse in the grid 
