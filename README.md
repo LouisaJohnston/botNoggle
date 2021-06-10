@@ -19,7 +19,7 @@ python3 -m pygame.examples.aliens
 
 For more information on Pygame, visit https://www.pygame.org/wiki/GettingStarted
 
-
+Once installed, run the code in playBotNoggle.py to play Bot Noggle.
 
 ## Game Rules
 Find as many words as possible within a 4x4 grid of random letters.
