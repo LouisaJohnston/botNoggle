@@ -152,7 +152,7 @@ def find_match(noggle_grid, input_text, x, y, nrow, ncol, level):
 # Function to check if word exists in the grid or not 
 def check_match(noggle_grid, input_text, nrow, ncol):
     l = len(input_text)
-    # if total characters in matrix is less then input text length 
+    # if total characters in matrix is less than input text length 
     if l > nrow * ncol:
         return False
     # Traverse in the grid 
@@ -194,6 +194,9 @@ def blit_text(surface, text, pos, font, color = pygame.Color('BLUE')):
         found_img = found_font.render(word, True, BLUE)
         word_width, word_height = found_img.get_size()
         if x + word_width >= max_width:
+            x = pos[0]  # Reset the x.
+            y += word_height  # Start on new row.
+        if x + word_height >= max_height:
             x = pos[0]  # Reset the x.
             y += word_height  # Start on new row.
         surface.blit(found_img, (x, y))
@@ -293,7 +296,7 @@ while not done:
                                 HEIGHT])
                 screen.blit(img_list[row][column], rect2)
 
-    # Limit to 60 frames per second
+    # Limit to 60 frames/second
     clock.tick(60)
  
     # Update the screen with what we've drawn.
