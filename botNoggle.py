@@ -191,9 +191,6 @@ rect.topleft = (175, 50)
 found_words = []
 found_font = pygame.font.SysFont('Ariel', 30)
 
-# Quote variable to concatenate to input text
-quote = '"'
-
 # Function to space out found words
 def blit_text(surface, text, pos, font, color = pygame.Color('BLUE')):
     space = font.size(' ')[0]  # The width of a space.
