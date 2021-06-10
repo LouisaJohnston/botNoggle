@@ -7,7 +7,7 @@ Usage:
 
 from setuptools import setup
 
-APP = ['botNoggle.py']
+APP = ['playBotNoggle.py']
 DATA_FILES = ['words_dictionary.json']
 OPTIONS = {
     'argv_emulation': True,
