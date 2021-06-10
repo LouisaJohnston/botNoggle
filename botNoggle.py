@@ -172,18 +172,27 @@ pygame.init()
 WINDOW_SIZE = [640, 400]
 screen = pygame.display.set_mode(WINDOW_SIZE)
 
+# Input instructions Variables
+instr_font = pygame.font.SysFont('Ariel', 22)
+instr_img = instr_font.render("Begin typing to guess words and press the 'Enter' key to check ", True, BLUE)
+instr_rect = instr_img.get_rect()
+instr_rect.topleft = (175, 20)
+
 # Input text Variables
-text = 'Enter'
-font = pygame.font.SysFont(None, 48)
+text = ''
+font = pygame.font.SysFont('Ariel', 48)
 img = font.render(text, True, BLUE)
 
 # Display the input text
 rect = img.get_rect()
-rect.topleft = (175, 20)
+rect.topleft = (175, 50)
 
 # store found words
 found_words = []
-found_font = pygame.font.SysFont(None, 30)
+found_font = pygame.font.SysFont('Ariel', 30)
+
+# Quote variable to concatenate to input text
+quote = '"'
 
 # Function to space out found words
 def blit_text(surface, text, pos, font, color = pygame.Color('BLUE')):
@@ -201,27 +210,27 @@ def blit_text(surface, text, pos, font, color = pygame.Color('BLUE')):
         x = pos[0]  # Reset the x.
         y += word_height  # Start on new row.
 
-found_title_img = found_font.render("Found:", True, BLUE)
+found_title_img = found_font.render("Found words:", True, BLUE)
 found_title_rect = found_title_img.get_rect()
-found_title_rect.topleft = (175, 120)
+found_title_rect.topleft = (175, 150)
 
 # turn the letter list into multidimensional array of pygame images
 img_list = []
 for row in range(4):
     img_list.append([])
     for column in range(4):
-        cell_font = pygame.font.SysFont(None, 30)
+        cell_font = pygame.font.SysFont('Ariel', 30)
         cell_img = cell_font.render(grid[row][column], True, BLUE)
         img_list[row].append(cell_img)
 
 # Display the score
 score_val = 0
 score_str = str(score_val)
-score_font = pygame.font.SysFont(None, 35)
+score_font = pygame.font.SysFont('Ariel', 35)
 score_img = score_font.render("Score: " + score_str, True, RED)
 
 score_rect = img.get_rect()
-score_rect.topleft = (175, 70)
+score_rect.topleft = (175, 100)
 
 # Set title of screen
 pygame.display.set_caption("Bot Noggle")
@@ -238,8 +247,8 @@ clock = pygame.time.Clock()
 # -------- Game Loop -----------
 while not done:
     for event in pygame.event.get():  
-        if event.type == pygame.QUIT:  # If user clicked close
-            done = True  # Flag that we are done so we exit this loop
+        if event.type == pygame.QUIT:  # If user clicks close
+            done = True  # Flag as done to exit loop
         elif event.type == KEYDOWN:
             if event.key == K_RETURN:
                 if t.search(text.lower()):
@@ -259,6 +268,7 @@ while not done:
                         score_val += 11
                     score_img = score_font.render("Score: " + str(score_val), True, RED)
                     score_rect.size = score_img.get_size()
+                    text = ''
             elif event.key == K_BACKSPACE:
                 if len(text) > 0:
                     text = text[:-1]
@@ -270,7 +280,8 @@ while not done:
     # Set the screen background
     screen.fill(GRAY)
     
-    # Display input text 
+    # Display input text
+    screen.blit(instr_img, instr_rect) 
     screen.blit(img, rect)
 
     # Display score
@@ -278,7 +289,7 @@ while not done:
     
     # Display found words
     screen.blit(found_title_img, found_title_rect)
-    blit_text(screen, found_words, (175, 150), found_font)
+    blit_text(screen, found_words, (175, 180), found_font)
 
     # Draw the grid
     for row in range(4):

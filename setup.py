@@ -9,7 +9,9 @@ from setuptools import setup
 
 APP = ['botNoggle.py']
 DATA_FILES = ['words_dictionary.json']
-OPTIONS = {}
+OPTIONS = {
+    'argv_emulation': True,
+    'packages':['pygame']}
 
 setup(
     app=APP,
