@@ -1,10 +1,17 @@
 # Bot Noggle
 
-## User Stories
-- As a user (AAU), I want to be able to search for words grid of random letters.
-- AAU, I want to be able to enter these words into a text box, and if they exist in the dictionary, have the points corresponding to the length of the word added to my score and have my total score.
+
+## Description 
+Bot Noggle is a version of a popular word game built with Python.
+
+![Gameplay Example](/images/gameplay.png)
 
 A video example of gameplay can be found here: https://youtu.be/MCWT7-8a7iE
+
+
+## User Stories
+- As a user (AAU), I want to be able to search for words in a grid of random letters.
+- AAU, I want to be able to enter these words into a text box, and if they exist in the dictionary, have the points corresponding to the length of the word added to my score and have my total score.
 
 ## Dependencies
 Bot Noggle requires a code editor, Python, and Pyame. 
