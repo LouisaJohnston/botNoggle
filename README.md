@@ -4,6 +4,8 @@
 - As a user (AAU), I want to be able to search for words grid of random letters.
 - AAU, I want to be able to enter these words into a text box, and if they exist in the dictionary, have the points corresponding to the length of the word added to my score and have my total score.
 
+A video example of gameplay can be found here: https://youtu.be/MCWT7-8a7iE
+
 ## Dependencies
 Bot Noggle requires a code editor, Python, and Pyame. 
 

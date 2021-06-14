@@ -108,7 +108,7 @@ for row in range(4):
     for column in range(4):
         random_char = random.choice(NOGGLE_STRING[row][column])
         grid[row].append(random_char)  # Append a cell
-print(grid)
+# print(grid)
 
 # For checking input text
 str_grid = []
@@ -174,7 +174,7 @@ screen = pygame.display.set_mode(WINDOW_SIZE)
 
 # Input instructions Variables
 instr_font = pygame.font.SysFont('Ariel', 22)
-instr_img = instr_font.render("Begin typing to guess words and press the 'Enter' key to check ", True, BLUE)
+instr_img = instr_font.render("Begin typing then press the 'Enter' key to check your word", True, BLUE)
 instr_rect = instr_img.get_rect()
 instr_rect.topleft = (175, 20)
 
@@ -248,11 +248,12 @@ while not done:
             done = True  # Flag as done to exit loop
         elif event.type == KEYDOWN:
             if event.key == K_RETURN:
+                print(f'You entered: {text}')
                 if t.search(text.lower()):
                     in_Trie = True
                 if (check_match(str_grid, text.upper(), r, c)) and text.lower() not in found_words and in_Trie == True:
                     found_words.append(text.lower())
-                    print(found_words)
+                    # print(found_words)
                     if 3 <= len(text) <= 4:
                         score_val += 1
                     elif len(text) == 5:
